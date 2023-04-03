@@ -8,6 +8,6 @@ EXPOSE 8081
 COPY . .
 
 RUN npm install
-RUN npm rebuild bcrypt --build-from-source
+# RUN npm rebuild bcrypt --build-from-source
 
 CMD [ "npm", "start" ]
