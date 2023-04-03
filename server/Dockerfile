@@ -1,14 +1,13 @@
-FROM node:14
+FROM node:18.13.0
 
 WORKDIR /usr/src/app
 
 ENV PORT 8081
 EXPOSE 8081
 
-COPY package*.json ./
+COPY . .
 
 RUN npm install
-
-COPY . .
+RUN npm rebuild bcrypt --build-from-source
 
 CMD [ "npm", "start" ]
