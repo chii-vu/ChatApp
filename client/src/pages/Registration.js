@@ -34,7 +34,6 @@ function Registration() {
             autoComplete="off"
             id="inputCreatePost"
             name="username"
-            placeholder="(Ex. John123...)"
           />
 
           <label>Password: </label>
@@ -44,10 +43,9 @@ function Registration() {
             type="password"
             id="inputCreatePost"
             name="password"
-            placeholder="Your Password..."
           />
 
-          <button type="submit"> Register</button>
+          <button type="submit">Register</button>
         </Form>
       </Formik>
     </div>
