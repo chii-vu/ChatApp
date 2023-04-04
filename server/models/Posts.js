@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    channel: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
   });
 
   Posts.associate = (models) => {
