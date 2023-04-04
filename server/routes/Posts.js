@@ -4,11 +4,29 @@ const { Posts, Likes } = require("../models");
 
 const { validateToken } = require("../middlewares/AuthMiddleware");
 
+/**
+ * @route GET api/posts
+ * @desc Get all posts
+ */
 router.get("/", validateToken, async (req, res) => {
   const listOfPosts = await Posts.findAll({ include: [Likes] });
   const likedPosts = await Likes.findAll({ where: { UserId: req.user.id } });
   res.json({ listOfPosts: listOfPosts, likedPosts: likedPosts });
 });
+
+/**
+ * @route GET api/posts/byChannelId/:channelId
+ * @desc Get all posts by channel id
+*/
+router.get("/byChannelId/:channelId", async (req, res) => {
+  const channelId = req.params.channelId;
+  const listOfPosts = await Posts.findAll({
+    where: { channelId: channelId },
+    include: [Likes],
+  });
+  res.json(listOfPosts);
+});
+
 
 router.get("/byId/:id", async (req, res) => {
   const id = req.params.id;
@@ -16,6 +34,10 @@ router.get("/byId/:id", async (req, res) => {
   res.json(post);
 });
 
+/**
+ * @route GET api/posts/buUserId/:channelId
+ * @desc Get all posts by user id
+ */
 router.get("/byuserId/:id", async (req, res) => {
   const id = req.params.id;
   const listOfPosts = await Posts.findAll({
@@ -24,6 +46,7 @@ router.get("/byuserId/:id", async (req, res) => {
   });
   res.json(listOfPosts);
 });
+
 
 router.post("/", validateToken, async (req, res) => {
   const post = req.body;

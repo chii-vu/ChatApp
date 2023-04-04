@@ -15,6 +15,8 @@ sequelize.query("CREATE DATABASE IF NOT EXISTS chatdb;")
     const db = require("./models");
 
     // Routers
+    const channelsRouter = require("./routes/Channels");
+    app.use("/channels", channelsRouter);
     const postRouter = require("./routes/Posts");
     app.use("/posts", postRouter);
     const commentsRouter = require("./routes/Comments");

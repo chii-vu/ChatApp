@@ -5,6 +5,10 @@ const bcrypt = require("bcryptjs");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 const { sign } = require("jsonwebtoken");
 
+/**
+ * @route POST api/users
+ * @desc Register User
+ */
 router.post("/", async (req, res) => {
   const { username, password } = req.body;
   bcrypt.hash(password, 10).then((hash) => {
@@ -16,6 +20,10 @@ router.post("/", async (req, res) => {
   });
 });
 
+/**
+ * @route POST api/users/login
+ * @desc Login User
+ */
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -34,10 +42,18 @@ router.post("/login", async (req, res) => {
   });
 });
 
+/**
+ * @route GET api/users/auth
+ * @desc Check if user is logged in
+ */
 router.get("/auth", validateToken, (req, res) => {
   res.json(req.user);
 });
 
+/**
+ * @route GET api/users/basicinfo/:id
+ * @desc Get basic info of a user
+ */
 router.get("/basicinfo/:id", async (req, res) => {
   const id = req.params.id;
 
@@ -48,6 +64,10 @@ router.get("/basicinfo/:id", async (req, res) => {
   res.json(basicInfo);
 });
 
+/**
+ * @route PUT api/users/changepassword
+ * @desc Change password of a user
+ */
 router.put("/changepassword", validateToken, async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const user = await Users.findOne({ where: { username: req.user.username } });
