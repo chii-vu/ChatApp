@@ -1,20 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { AuthContext } from "../helpers/AuthContext";
 
 function Channel() {
     let { id } = useParams();
     let navigate = useNavigate();
     const [listOfPosts, setListOfPosts] = useState([]);
-    const { authState } = useContext(AuthContext);
 
     useEffect(() => {
         if (!localStorage.getItem("accessToken")) {
             navigate("/login");
         } else {
             axios.get(`http://localhost:8081/posts/byChannelId/${id}`).then((response) => {
-                setListOfPosts(response.data);
+                setListOfPosts(response.data.listOfPosts);
             });
         }
     }, []);

@@ -3,6 +3,13 @@ const router = express.Router();
 const { Channels } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 
+// Get all channels
+router.get("/", validateToken, async (req, res) => {
+    const listOfChannels = await Channels.findAll();
+    res.json(listOfChannels);
+});
+
+// Get posts by channelId
 router.get("/:channelId", async (req, res) => {
     const channelId = req.params.channelId;
     const listOfPosts = await Posts.findAll({
