@@ -14,6 +14,7 @@ import ChangePassword from "./pages/ChangePassword";
 
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
   const logout = () => {
     localStorage.removeItem("accessToken");
     setAuthState({ username: "", id: 0, status: false });
+    window.location.href = "/login";
   };
 
   return (
@@ -70,7 +72,7 @@ function App() {
             </div>
             <div className="loggedInContainer">
               <h1>{authState.username} </h1>
-              {authState.status && <button onClick={logout}> Logout</button>}
+              {authState.status && <button onClick={logout}> Sign Out</button>}
             </div>
           </div>
           <Routes>

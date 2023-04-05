@@ -10,8 +10,8 @@ function Registration() {
   };
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().min(3).max(15).required(),
-    password: Yup.string().min(4).max(20).required(),
+    username: Yup.string().min(3).max(15).required("Required"),
+    password: Yup.string().min(4).max(20).required("Required"),
   });
 
   const onSubmit = (data) => {
@@ -21,7 +21,7 @@ function Registration() {
   };
 
   return (
-    <div>
+    <div className="registrationPage">
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}

@@ -10,6 +10,7 @@ function Channel() {
     const [listOfPosts, setListOfPosts] = useState([]);
     const [likedPosts, setLikedPosts] = useState([]);
     const { authState } = useContext(AuthContext);
+
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -67,9 +68,12 @@ function Channel() {
             });
     };
 
+    // Sort the posts based on the length of the Likes array in descending order
+    const sortedPosts = listOfPosts.sort((a, b) => b.Likes.length - a.Likes.length);
+
     return (
         <div>
-            {listOfPosts.map((value, key) => {
+            {sortedPosts.map((value, key) => {
                 return (
                     <div key={key} className="post">
                         <div className="title"> {value.title} </div>
@@ -98,19 +102,6 @@ function Channel() {
                                 />
                                 <label> {value.Likes.length}</label>
                             </div>
-
-                            {/* <div className="buttons">
-                <ThumbUpAltIcon
-                  onClick={() => {
-                    likeAPost(value.id);
-                  }}
-                  className={
-                    likedPosts.includes(value.id) ? "unlikeBttn" : "likeBttn"
-                  }
-                />
-
-                <label> {value.Likes.length}</label>
-              </div> */}
                         </div>
                     </div>
                 );
