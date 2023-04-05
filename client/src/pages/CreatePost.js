@@ -14,7 +14,7 @@ function CreatePost({ channelId }) {
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Required"),
-    postText: Yup.string().required(),
+    postText: Yup.string().required("Required"),
   });
 
   const onSubmit = (data) => {

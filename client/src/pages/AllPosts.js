@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ThumbsUp from "../images/ThumbsUp.png";
 import { AuthContext } from "../helpers/AuthContext";
 
-function Home() {
+function AllPosts() {
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const { authState } = useContext(AuthContext);
   let navigate = useNavigate();
 
@@ -66,9 +67,34 @@ function Home() {
       });
   };
 
+  const filteredPosts = useMemo(() => {
+    if (!searchTerm) return listOfPosts;
+    return listOfPosts.filter((post) =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.postText.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm, listOfPosts]);
+
   return (
     <div>
-      {listOfPosts.map((value, key) => {
+      <input
+        type="text"
+        placeholder="Search posts"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{
+          position: 'absolute',
+          border: "2px solid dodgerblue",
+          right: '30%',
+          top: '15%',
+          padding: '20px',
+          borderRadius: '5px',
+          width: '300px',
+          fontSize: '20px',
+        }}
+      />
+      {filteredPosts.map((value, key) => {
         return (
           <div key={key} className="post">
             <div className="title"> {value.title} </div>
@@ -105,4 +131,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default AllPosts;
