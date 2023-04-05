@@ -33,7 +33,7 @@ function CreatePost() {
   };
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required("You must input a Title!"),
+    title: Yup.string().required("Required"),
     postText: Yup.string().required(),
     channelId: Yup.number().required(),
   });
