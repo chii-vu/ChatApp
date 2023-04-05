@@ -1,50 +1,29 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 
-function CreatePost() {
+function CreatePost({ channelId }) {
   const { authState } = useContext(AuthContext);
-  const [channels, setChannels] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!localStorage.getItem("accessToken")) {
-      navigate("/login");
-    }
-    axios
-      .get("http://localhost:8081/channels", {
-        headers: { accessToken: localStorage.getItem("accessToken") },
-      })
-      .then((response) => {
-        setChannels(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [navigate]);
 
   const initialValues = {
     title: "",
     postText: "",
-    channelId: "",
   };
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Required"),
     postText: Yup.string().required(),
-    channelId: Yup.number().required(),
   });
 
   const onSubmit = (data) => {
     axios
-      .post(`http://localhost:8081/posts/${data.channelId}`, data, {
+      .post(`http://localhost:8081/posts/${channelId}`, data, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       })
       .then((response) => {
-        navigate("/");
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
@@ -74,17 +53,6 @@ function CreatePost() {
               name="postText"
               placeholder="Data"
             />
-            <ErrorMessage name="channelId" component="span" />
-            <Field as="select" name="channelId">
-              <option value="">Select a Channel</option>
-              {channels.map((value, key) => {
-                return (
-                  <option key={key} value={value.id}>
-                    {value.channelName}
-                  </option>
-                );
-              })}
-            </Field>
             <button type="submit"> Create Post</button>
           </Form>
         )}

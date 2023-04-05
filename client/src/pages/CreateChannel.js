@@ -28,7 +28,7 @@ function CreateChannel() {
                 headers: { accessToken: localStorage.getItem("accessToken") },
             })
             .then((response) => {
-                navigate("/");
+                window.location.reload();
             });
     };
 
@@ -40,7 +40,7 @@ function CreateChannel() {
                 validationSchema={validationSchema}
             >
                 <Form className="formContainer">
-                    <label>Channel Name: </label>
+                    <label>Create A New Channel </label>
                     <ErrorMessage name="title" component="span" />
                     <Field
                         autoComplete="off"
