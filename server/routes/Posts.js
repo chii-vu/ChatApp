@@ -11,13 +11,14 @@ router.get("/", validateToken, async (req, res) => {
   res.json({ listOfPosts: listOfPosts, likedPosts: likedPosts });
 });
 
-router.get("/byChannelId/:channelId", async (req, res) => {
+router.get("/byChannelId/:channelId", validateToken, async (req, res) => {
   const channelId = req.params.channelId;
   const listOfPosts = await Posts.findAll({
-    where: { channelId: channelId },
+    where: { ChannelId: channelId },
     include: [Likes],
   });
-  res.json(listOfPosts);
+  const likedPosts = await Likes.findAll({ where: { UserId: req.user.id } });
+  res.json({ listOfPosts: listOfPosts, likedPosts: likedPosts });
 });
 
 

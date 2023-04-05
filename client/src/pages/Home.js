@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbsUp from "../images/ThumbsUp.png";
 import { AuthContext } from "../helpers/AuthContext";
 
 function Home() {
@@ -84,6 +84,20 @@ function Home() {
               <div className="username">
                 <Link to={`/profile/${value.UserId}`}> {value.username} </Link>
               </div>
+              <div className="buttons">
+                <img
+                  onClick={() => {
+                    likeAPost(value.id);
+                  }}
+                  className={
+                    likedPosts.includes(value.id) ? "unlikeBttn" : "likeBttn"
+                  }
+                  src={ThumbsUp}
+                  alt="like"
+                />
+                <label> {value.Likes.length}</label>
+              </div>
+
               {/* <div className="buttons">
                 <ThumbUpAltIcon
                   onClick={() => {
