@@ -60,23 +60,20 @@ function CreatePost() {
       >
         {({ values, handleChange }) => (
           <Form className="formContainer">
-            <label>Title: </label>
             <ErrorMessage name="title" component="span" />
             <Field
               autoComplete="off"
               id="inputCreatePost"
               name="title"
-              placeholder="(Ex. Title...)"
+              placeholder="Topic"
             />
-            <label>Post: </label>
             <ErrorMessage name="postText" component="span" />
             <Field
               autoComplete="off"
               id="inputCreatePost"
               name="postText"
-              placeholder="(Ex. Post...)"
+              placeholder="Data"
             />
-            <label>Channel: </label>
             <ErrorMessage name="channelId" component="span" />
             <Field as="select" name="channelId">
               <option value="">Select a Channel</option>

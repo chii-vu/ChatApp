@@ -24,14 +24,16 @@ function ChannelsList() {
     }, []);
 
     return (
-        <div className="listOfChannels">
-            {listOfChannels.map((value, key) => {
-                return (
-                    <div key={key} className="channel">
-                        <Link to={`/channel/${value.id}`}> {value.channelName} </Link>
-                    </div>
-                );
-            })}
+        <div className="channelsList">
+            {
+                listOfChannels.map((value, key) => {
+                    return (
+                        <div key={key} className="channel">
+                            <Link to={`/channel/${value.id}`}> {value.channelName} </Link>
+                        </div>
+                    );
+                })
+            }
         </div>
     );
 }
