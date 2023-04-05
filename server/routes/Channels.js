@@ -9,15 +9,22 @@ router.get("/", validateToken, async (req, res) => {
     res.json(listOfChannels);
 });
 
-// Get posts by channelId
+// Get channel by channelId
 router.get("/:channelId", async (req, res) => {
     const channelId = req.params.channelId;
-    const listOfPosts = await Posts.findAll({
-        where: { channelId: channelId },
-        include: [Likes],
-    });
-    res.json(listOfPosts);
+    const channel = await Channels.findByPk(channelId);
+    res.json(channel);
 });
+
+// // Get posts by channelId
+// router.get("/:channelId", async (req, res) => {
+//     const channelId = req.params.channelId;
+//     const listOfPosts = await Posts.findAll({
+//         where: { channelId: channelId },
+//         include: [Likes],
+//     });
+//     res.json(listOfPosts);
+// });
 
 router.post("/", validateToken, async (req, res) => {
     const channel = req.body;

@@ -46,6 +46,16 @@ router.post("/", validateToken, async (req, res) => {
   res.json(post);
 });
 
+// Create a post in a channel
+router.post("/:channelId", validateToken, async (req, res) => {
+  const post = req.body;
+  post.username = req.user.username;
+  post.UserId = req.user.id;
+  post.ChannelId = req.params.channelId; // Add the ChannelId to the post
+  await Posts.create(post);
+  res.json(post);
+});
+
 router.put("/title", validateToken, async (req, res) => {
   const { newTitle, id } = req.body;
   await Posts.update({ title: newTitle }, { where: { id: id } });
