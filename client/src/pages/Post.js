@@ -132,7 +132,7 @@ function Post() {
           </div>
           <div className="footer">
             {postObject.username}
-            {authState.username === postObject.username && (
+            {authState.username === "admin" && authState.isAdmin && (
               <button
                 onClick={() => {
                   deletePost(postObject.id);
@@ -164,13 +164,13 @@ function Post() {
               <div key={key} className="comment">
                 {comment.commentBody}
                 <label> Username: {comment.username}</label>
-                {authState.username === comment.username && (
+                {authState.username === "admin" && authState.isAdmin && (
                   <button
                     onClick={() => {
                       deleteComment(comment.id);
                     }}
                   >
-                    X
+                    Delete Comment
                   </button>
                 )}
               </div>
