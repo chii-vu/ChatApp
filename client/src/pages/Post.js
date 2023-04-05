@@ -146,18 +146,6 @@ function Post() {
         </div>
       </div>
       <div className="rightSide">
-        <div className="addCommentContainer">
-          <input
-            type="text"
-            placeholder="Comment..."
-            autoComplete="off"
-            value={newComment}
-            onChange={(event) => {
-              setNewComment(event.target.value);
-            }}
-          />
-          <button onClick={addComment}> Add Comment</button>
-        </div>
         <div className="listOfComments">
           {comments.map((comment, key) => {
             return (
@@ -170,12 +158,24 @@ function Post() {
                       deleteComment(comment.id);
                     }}
                   >
-                    Delete Comment
+                    Delete Reply
                   </button>
                 )}
               </div>
             );
           })}
+        </div>
+        <div className="addCommentContainer">
+          <input
+            type="text"
+            placeholder="Reply"
+            autoComplete="off"
+            value={newComment}
+            onChange={(event) => {
+              setNewComment(event.target.value);
+            }}
+          />
+          <button onClick={addComment}> Add Reply</button>
         </div>
       </div>
     </div>
