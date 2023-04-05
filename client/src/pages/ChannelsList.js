@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
+import UsersList from "./UsersList";
 
 function ChannelsList() {
     const [listOfChannels, setListOfChannels] = useState([]);
@@ -38,7 +39,9 @@ function ChannelsList() {
     };
 
     return (
+        // display all channels, and if the user is admin, display a delete button for each channel and a list of users
         <div className="channelsList">
+            <h2> All Channels</h2>
             {
                 listOfChannels.map((value, key) => {
                     return (
@@ -52,25 +55,8 @@ function ChannelsList() {
                 })
             }
         </div>
+
     );
 }
 
 export default ChannelsList;
-
-
-//     return (
-//         <div className="channelsList">
-//             {
-//                 listOfChannels.map((value, key) => {
-//                     return (
-//                         <div key={key} className="channel">
-//                             <Link to={`/channel/${value.id}`}> {value.channelName} </Link>
-//                         </div>
-//                     );
-//                 })
-//             }
-//         </div>
-//     );
-// }
-
-// export default ChannelsList;

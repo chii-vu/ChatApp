@@ -16,22 +16,14 @@ router.get("/:channelId", async (req, res) => {
     res.json(channel);
 });
 
-// // Get posts by channelId
-// router.get("/:channelId", async (req, res) => {
-//     const channelId = req.params.channelId;
-//     const listOfPosts = await Posts.findAll({
-//         where: { channelId: channelId },
-//         include: [Likes],
-//     });
-//     res.json(listOfPosts);
-// });
-
+// Create a new channel
 router.post("/", validateToken, async (req, res) => {
     const channel = req.body;
     await Channels.create(channel);
     res.json(channel);
 });
 
+// Delete a channel
 router.delete("/:channelId", validateToken, async (req, res) => {
     const channelId = req.params.channelId;
 

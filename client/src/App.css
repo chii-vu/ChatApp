@@ -153,6 +153,7 @@ span {
   height: 100%;
   display: flex;
   align-items: center;
+  margin-left: 30px;
 }
 
 .navbar .loggedInContainer {
@@ -172,13 +173,13 @@ a {
   width: 100px;
   height: 40px;
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 20px;
   background-color: white;
 }
 
 .navbar h1 {
   text-align: right;
-  margin-right: 10px;
+  margin-right: 20px;
   color: white;
   font-weight: lighter;
 }
