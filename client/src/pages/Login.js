@@ -16,21 +16,16 @@ function Login() {
       if (response.data.error) {
         alert(response.data.error);
       } else {
-        // check if username and password are both "admin"
-        const isAdmin = username === "admin" && password === "admin";
-
         localStorage.setItem("accessToken", response.data.token);
         setAuthState({
           username: response.data.username,
           id: response.data.id,
-          status: response.data.status,
-          isAdmin: isAdmin,
+          status: true,
         });
         navigate("/");
       }
     });
   };
-
   return (
     <div className="loginContainer">
       <label>Username:</label>
