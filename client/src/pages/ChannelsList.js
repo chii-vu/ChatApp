@@ -23,6 +23,20 @@ function ChannelsList() {
         }
     }, []);
 
+    const deleteChannel = (channelId) => {
+        axios
+            .delete(`http://localhost:8081/channels/${channelId}`, {
+                headers: { accessToken: localStorage.getItem("accessToken") },
+            })
+            .then(() => {
+                const updatedChannels = listOfChannels.filter((channel) => channel.id !== channelId);
+                setListOfChannels(updatedChannels);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     return (
         <div className="channelsList">
             {
@@ -30,6 +44,9 @@ function ChannelsList() {
                     return (
                         <div key={key} className="channel">
                             <Link to={`/channel/${value.id}`}> {value.channelName} </Link>
+                            {authState.username === "admin" && (
+                                <button onClick={() => deleteChannel(value.id)}>Delete Channel</button>
+                            )}
                         </div>
                     );
                 })
@@ -39,3 +56,21 @@ function ChannelsList() {
 }
 
 export default ChannelsList;
+
+
+//     return (
+//         <div className="channelsList">
+//             {
+//                 listOfChannels.map((value, key) => {
+//                     return (
+//                         <div key={key} className="channel">
+//                             <Link to={`/channel/${value.id}`}> {value.channelName} </Link>
+//                         </div>
+//                     );
+//                 })
+//             }
+//         </div>
+//     );
+// }
+
+// export default ChannelsList;
