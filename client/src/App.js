@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import CreateChannel from "./pages/CreateChannel";
 import ChannelsList from "./pages/ChannelsList";
+import Channel from "./pages/Channel";
 import CreatePost from "./pages/CreatePost";
 import Post from "./pages/Post";
 import Registration from "./pages/Registration";
@@ -77,6 +78,7 @@ function App() {
             <Route path="/channelslist" element={<ChannelsList />} />
             <Route path="/createpost" element={<CreatePost />} />
             <Route path="/createchannel" element={<CreateChannel />} />
+            <Route path="/channel/:id" element={<Channel />} />
             <Route path="/post/:id" element={<Post />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/login" element={<Login />} />

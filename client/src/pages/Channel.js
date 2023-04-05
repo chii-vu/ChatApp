@@ -1,75 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-// import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 
 function Channel() {
     let { id } = useParams();
-    const [listOfPosts, setListOfPosts] = useState([]);
-    const [likedPosts, setLikedPosts] = useState([]);
     const { authState } = useContext(AuthContext);
+    const [listOfPosts, setListOfPosts] = useState([]);
     let navigate = useNavigate();
 
     useEffect(() => {
-        if (!localStorage.getItem("accessToken")) {
-            navigate("/login");
-        } else {
-            axios
-                .get(`http://localhost:8081/posts/byChannelId/${id}`, {
-                    headers: { accessToken: localStorage.getItem("accessToken") },
-                })
-                .then((response) => {
-                    setListOfPosts(response.data.listOfPosts);
-                    setLikedPosts(
-                        response.data.likedPosts.map((like) => {
-                            return like.PostId;
-                        })
-                    );
-                });
-        }
+        axios.get(`http://localhost:8081/posts/byChannelId/${id}`).then((response) => {
+            setListOfPosts(response.data);
+        });
     }, []);
-
-    const likeAPost = (postId) => {
-        axios
-            .post(
-                "http://localhost:8081/likes",
-                { PostId: postId },
-                { headers: { accessToken: localStorage.getItem("accessToken") } }
-            )
-            .then((response) => {
-                setListOfPosts(
-                    listOfPosts.map((post) => {
-                        if (post.id === postId) {
-                            if (response.data.liked) {
-                                return { ...post, Likes: [...post.Likes, 0] };
-                            } else {
-                                const likesArray = post.Likes;
-                                likesArray.pop();
-                                return { ...post, Likes: likesArray };
-                            }
-                        } else {
-                            return post;
-                        }
-                    })
-                );
-
-                if (likedPosts.includes(postId)) {
-                    setLikedPosts(
-                        likedPosts.filter((id) => {
-                            return id !== postId;
-                        })
-                    );
-                } else {
-                    setLikedPosts([...likedPosts, postId]);
-                }
-            });
-    };
 
     return (
         <div>
-            Hello from Channel page
             {listOfPosts.map((value, key) => {
                 return (
                     <div key={key} className="post">
@@ -83,21 +30,10 @@ function Channel() {
                             {value.postText}
                         </div>
                         <div className="footer">
-                            <div className="username">
-                                <Link to={`/profile/${value.UserId}`}> {value.username} </Link>
+                            <div className="username">{value.username}</div>
+                            <div className="buttons">
+                                <label> {value.Likes.length}</label>
                             </div>
-                            {/* <div className="buttons">
-                <ThumbUpAltIcon
-                  onClick={() => {
-                    likeAPost(value.id);
-                  }}
-                  className={
-                    likedPosts.includes(value.id) ? "unlikeBttn" : "likeBttn"
-                  }
-                />
-
-                <label> {value.Likes.length}</label>
-              </div> */}
                         </div>
                     </div>
                 );
@@ -107,4 +43,3 @@ function Channel() {
 }
 
 export default Channel;
-
