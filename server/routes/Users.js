@@ -5,6 +5,16 @@ const bcrypt = require("bcryptjs");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 const { sign } = require("jsonwebtoken");
 
+
+/**
+ * @route GET api/users
+ * @desc Get all users
+ */
+router.get("/", validateToken, async (req, res) => {
+  const listOfUsers = await Users.findAll({ attributes: { exclude: ["password"] } });
+  res.json(listOfUsers);
+});
+
 /**
  * @route POST api/users
  * @desc Register User
@@ -83,6 +93,20 @@ router.put("/changepassword", validateToken, async (req, res) => {
       res.json("SUCCESS");
     });
   });
+});
+
+/**
+ * @route DELETE api/users/delete
+ * @desc Delete a user by id
+ */
+router.delete("/:userId", validateToken, async (req, res) => {
+  const userId = req.params.userId;
+  await Users.destroy({
+    where: {
+      id: userId,
+    },
+  });
+  res.json("DELETED SUCCESSFULLY");
 });
 
 module.exports = router;
