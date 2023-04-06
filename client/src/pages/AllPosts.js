@@ -142,7 +142,7 @@ function AllPosts() {
         <button style={{ backgroundColor: 'dodgerblue', color: 'white', padding: '10px', borderRadius: '5px', fontSize: '20px' }} onClick={sortByDate}>Date Created</button>
       </div>
 
-
+      <h2 style={{ margin: "50px" }}>All Posts</h2>
       {filteredPosts.map((value, key) => {
         return (
           <div key={key} className="post">
