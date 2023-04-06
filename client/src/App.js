@@ -1,19 +1,21 @@
 import "./App.css";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+
+import { AuthContext } from "./helpers/AuthContext";
+import Registration from "./components/Registration";
+import Login from "./components/Login";
+
 import HomePage from "./pages/HomePage";
 import Channel from "./pages/Channel";
 import Post from "./pages/Post";
-import Registration from "./pages/Registration";
-import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import Profile from "./pages/Profile";
-import ChangePassword from "./pages/ChangePassword";
+import ChangePassword from "./components/ChangePassword";
 import AllPosts from "./pages/AllPosts";
 import UsersList from "./pages/UsersList";
 
-import { AuthContext } from "./helpers/AuthContext";
-import { useState, useEffect } from "react";
-import axios from "axios";
 
 function App() {
   const [authState, setAuthState] = useState({
