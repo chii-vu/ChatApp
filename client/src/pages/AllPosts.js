@@ -4,6 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import ThumbsUp from "../images/ThumbsUp.png";
 import { AuthContext } from "../helpers/AuthContext";
 
+/**
+ * Display all posts in the database
+ * @returns {JSX.Element} AllPosts component
+ */
 function AllPosts() {
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
@@ -13,6 +17,7 @@ function AllPosts() {
   const { authState } = useContext(AuthContext);
   let navigate = useNavigate();
 
+  // Get all posts from the database
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigate("/login");
@@ -30,7 +35,7 @@ function AllPosts() {
           );
         });
     }
-  }, [navigate]);
+  }, [navigate, authState.status]);
 
   const likeAPost = (postId) => {
     axios
@@ -68,13 +73,15 @@ function AllPosts() {
       });
   };
 
+  // Filter posts by criterae: keyword or username
   const filteredPosts = useMemo(() => {
     let result = listOfPosts;
 
     if (searchKeyword) {
-      result = result.filter((post) =>
-        post.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-        post.postText.toLowerCase().includes(searchKeyword.toLowerCase())
+      result = result.filter(
+        (post) =>
+          post.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+          post.postText.toLowerCase().includes(searchKeyword.toLowerCase())
       );
     }
 
@@ -87,6 +94,7 @@ function AllPosts() {
     return result;
   }, [searchKeyword, searchUser, listOfPosts]);
 
+  // Sort posts by most liked
   const sortByMostLiked = () => {
     setListOfPosts(
       listOfPosts.sort((a, b) => {
@@ -96,6 +104,7 @@ function AllPosts() {
     window.location.reload();
   };
 
+  // Sort posts by most recent
   const sortByDate = () => {
     setListOfPosts(
       listOfPosts.sort((a, b) => {
@@ -107,8 +116,8 @@ function AllPosts() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', marginTop: '50px' }}>
-        <label style={{ fontSize: '25px', marginLeft: '50px' }}>Search:</label>
+      <div style={{ display: "flex", alignItems: "center", marginTop: "50px" }}>
+        <label style={{ fontSize: "25px", marginLeft: "50px" }}>Search:</label>
         <input
           type="text"
           placeholder="Keyword"
@@ -116,12 +125,12 @@ function AllPosts() {
           onChange={(e) => setSearchKeyword(e.target.value)}
           style={{
             border: "2px solid dodgerblue",
-            padding: '10px',
-            borderRadius: '5px',
-            width: '300px',
-            fontSize: '20px',
-            marginLeft: '10px',
-            marginRight: '10px',
+            padding: "10px",
+            borderRadius: "5px",
+            width: "300px",
+            fontSize: "20px",
+            marginLeft: "10px",
+            marginRight: "10px",
           }}
         />
         <input
@@ -131,15 +140,40 @@ function AllPosts() {
           onChange={(e) => setSearchUser(e.target.value)}
           style={{
             border: "2px solid dodgerblue",
-            padding: '10px',
-            borderRadius: '5px',
-            width: '300px',
-            fontSize: '20px',
+            padding: "10px",
+            borderRadius: "5px",
+            width: "300px",
+            fontSize: "20px",
           }}
         />
-        <label style={{ fontSize: '25px', marginLeft: '100px' }}>Sort By:</label>
-        <button style={{ backgroundColor: 'dodgerblue', color: 'white', padding: '10px', borderRadius: '5px', fontSize: '20px', marginLeft: '50px' }} onClick={sortByMostLiked}>Most Liked</button>
-        <button style={{ backgroundColor: 'dodgerblue', color: 'white', padding: '10px', borderRadius: '5px', fontSize: '20px' }} onClick={sortByDate}>Date Created</button>
+        <label style={{ fontSize: "25px", marginLeft: "100px" }}>
+          Sort By:
+        </label>
+        <button
+          style={{
+            backgroundColor: "dodgerblue",
+            color: "white",
+            padding: "10px",
+            borderRadius: "5px",
+            fontSize: "20px",
+            marginLeft: "50px",
+          }}
+          onClick={sortByMostLiked}
+        >
+          Most Liked
+        </button>
+        <button
+          style={{
+            backgroundColor: "dodgerblue",
+            color: "white",
+            padding: "10px",
+            borderRadius: "5px",
+            fontSize: "20px",
+          }}
+          onClick={sortByDate}
+        >
+          Date Created
+        </button>
       </div>
 
       <h2 style={{ margin: "50px" }}>All Posts</h2>
@@ -175,8 +209,7 @@ function AllPosts() {
             </div>
           </div>
         );
-      }
-      )}
+      })}
     </div>
   );
 }

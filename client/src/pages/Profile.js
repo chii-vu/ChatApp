@@ -2,7 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../helpers/AuthContext";
-
+import ThumbsUp from "../images/ThumbsUp.png";
+/**
+ * Displays all posts by a user
+ * If the user is the current user, they can change their password
+ * @returns {JSX.Element} Profile component
+ */
 function Profile() {
   let { id } = useParams();
   let navigate = useNavigate();
@@ -18,7 +23,7 @@ function Profile() {
     axios.get(`http://localhost:8081/posts/byuserId/${id}`).then((response) => {
       setListOfPosts(response.data);
     });
-  }, []);
+  }, [id]);
 
   return (
     <div className="profilePageContainer">
@@ -32,7 +37,7 @@ function Profile() {
             }}
           >
             {" "}
-            Change My Password
+            Change Password
           </button>
         )}
       </div>
@@ -52,6 +57,7 @@ function Profile() {
               <div className="footer">
                 <div className="username">{value.username}</div>
                 <div className="buttons">
+                  <img src={ThumbsUp} alt="like" />
                   <label> {value.Likes.length}</label>
                 </div>
               </div>

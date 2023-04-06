@@ -4,6 +4,10 @@ import axios from "axios";
 import { AuthContext } from "../helpers/AuthContext";
 import Comment from "../components/Comment";
 
+/**
+ * Display a single post and its comments
+ * @returns {JSX.Element} Post component
+ */
 function Post() {
   let { id } = useParams();
   const [postObject, setPostObject] = useState({});
@@ -13,6 +17,7 @@ function Post() {
 
   let navigate = useNavigate();
 
+  // Get the post and its comments from the database
   useEffect(() => {
     axios.get(`http://localhost:8081/posts/byId/${id}`).then((response) => {
       setPostObject(response.data);
@@ -21,7 +26,7 @@ function Post() {
     axios.get(`http://localhost:8081/comments/${id}`).then((response) => {
       setComments(response.data);
     });
-  }, []);
+  }, [id]);
 
   const deletePost = (id) => {
     axios
@@ -152,14 +157,9 @@ function Post() {
         <div className="listOfComments">
           {comments.map((comment, key) => {
             return (
-              <Comment
-                key={key}
-                comment={comment}
-                onDelete={deleteComment}
-              />
+              <Comment key={key} comment={comment} onDelete={deleteComment} />
             );
-          }
-          )}
+          })}
         </div>
         <div className="addCommentContainer">
           <input
@@ -169,8 +169,7 @@ function Post() {
             value={newComment}
             onChange={(event) => {
               setNewComment(event.target.value);
-            }
-            }
+            }}
           />
           <button onClick={addComment}>Add Reply</button>
         </div>

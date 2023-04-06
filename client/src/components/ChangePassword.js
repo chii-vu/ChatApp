@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+/**
+ * User can change their password
+ * @returns {JSX.Element} ChangePassword component
+ */
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -28,22 +32,22 @@ function ChangePassword() {
 
   return (
     <div>
-      <h1>Change Your Password</h1>
+      <h1>Change Password</h1>
       <input
         type="text"
-        placeholder="Old Password..."
+        placeholder="Old Password"
         onChange={(event) => {
           setOldPassword(event.target.value);
         }}
       />
       <input
         type="text"
-        placeholder="New Password..."
+        placeholder="New Password"
         onChange={(event) => {
           setNewPassword(event.target.value);
         }}
       />
-      <button onClick={changePassword}> Save Changes</button>
+      <button onClick={changePassword}> Save </button>
     </div>
   );
 }

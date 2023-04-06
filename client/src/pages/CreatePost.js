@@ -1,12 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { AuthContext } from "../helpers/AuthContext";
 
+/**
+ * Form to create a new post
+ * @param {Object} props
+ * @param {string} props.channelId
+ * @returns {JSX.Element} CreatePost component
+ */
 function CreatePost({ channelId }) {
-  const { authState } = useContext(AuthContext);
-
+  // posts contain a topic and data
   const initialValues = {
     title: "",
     postText: "",
@@ -17,6 +21,7 @@ function CreatePost({ channelId }) {
     postText: Yup.string().required("Required"),
   });
 
+  // handler for submitting the form
   const onSubmit = (data) => {
     axios
       .post(`http://localhost:8081/posts/${channelId}`, data, {

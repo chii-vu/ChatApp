@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * PageNotFound component
+ * @returns {JSX.Element} PageNotFound component
+ */
 function PageNotFound() {
   return (
     <div>

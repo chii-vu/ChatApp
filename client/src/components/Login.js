@@ -3,6 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 
+/**
+ * Login page
+ * @returns {JSX.Element} Login component
+ */
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

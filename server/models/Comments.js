@@ -1,3 +1,4 @@
+// Each comment has a body and can have many replies, which are also comments
 module.exports = (sequelize, DataTypes) => {
   const Comments = sequelize.define("Comments", {
     commentBody: {

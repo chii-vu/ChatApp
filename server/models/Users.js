@@ -1,3 +1,4 @@
+// Each user has a username and password
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define("Users", {
     username: {

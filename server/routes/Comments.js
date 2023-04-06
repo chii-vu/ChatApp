@@ -3,14 +3,20 @@ const router = express.Router();
 const { Comments } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 
-// Get all comments for a post
+/**
+ * @route GET /api/comments/:postId
+ * @desc Get all comments for a post
+ */
 router.get("/:postId", async (req, res) => {
   const postId = req.params.postId;
   const comments = await Comments.findAll({ where: { PostId: postId } });
   res.json(comments);
 });
 
-// Add a new comment or reply
+/**
+ * @route POST /api/comments
+ * @desc Create a new comment
+ */
 router.post("/", validateToken, async (req, res) => {
   const comment = req.body;
   const username = req.user.username;
@@ -31,7 +37,10 @@ router.post("/", validateToken, async (req, res) => {
   res.json(comment);
 });
 
-// Delete a comment
+/**
+ * @route DELETE /api/comments/:commentId
+ * @desc Delete a comment by id
+ */
 router.delete("/:commentId", validateToken, async (req, res) => {
   const commentId = req.params.commentId;
 

@@ -1,3 +1,4 @@
+// Each post has a title, a body, and a username, and can have many comments and likes
 module.exports = (sequelize, DataTypes) => {
   const Posts = sequelize.define("Posts", {
     title: {

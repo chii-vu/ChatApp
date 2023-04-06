@@ -3,6 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
+/**
+ * Form to create a new post
+ * @returns {JSX.Element} CreatePost component
+ */
 function Registration() {
   const initialValues = {
     username: "",
@@ -30,11 +34,7 @@ function Registration() {
         <Form className="formContainer">
           <label>Username: </label>
           <ErrorMessage name="username" component="span" />
-          <Field
-            autoComplete="off"
-            id="inputCreatePost"
-            name="username"
-          />
+          <Field autoComplete="off" id="inputCreatePost" name="username" />
 
           <label>Password: </label>
           <ErrorMessage name="password" component="span" />

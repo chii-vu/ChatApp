@@ -5,13 +5,14 @@ const bcrypt = require("bcryptjs");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 const { sign } = require("jsonwebtoken");
 
-
 /**
  * @route GET api/users
  * @desc Get all users
  */
 router.get("/", validateToken, async (req, res) => {
-  const listOfUsers = await Users.findAll({ attributes: { exclude: ["password"] } });
+  const listOfUsers = await Users.findAll({
+    attributes: { exclude: ["password"] },
+  });
   res.json(listOfUsers);
 });
 
