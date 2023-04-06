@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../helpers/AuthContext";
+import Comment from "../components/Comment";
 
 function Post() {
   let { id } = useParams();
@@ -21,48 +22,6 @@ function Post() {
       setComments(response.data);
     });
   }, []);
-
-  const addComment = () => {
-    axios
-      .post(
-        "http://localhost:8081/comments",
-        {
-          commentBody: newComment,
-          PostId: id,
-        },
-        {
-          headers: {
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      )
-      .then((response) => {
-        if (response.data.error) {
-          console.log(response.data.error);
-        } else {
-          const commentToAdd = {
-            commentBody: newComment,
-            username: response.data.username,
-          };
-          setComments([...comments, commentToAdd]);
-          setNewComment("");
-        }
-      });
-  };
-
-  const deleteComment = (id) => {
-    axios
-      .delete(`http://localhost:8081/comments/${id}`, {
-        headers: { accessToken: localStorage.getItem("accessToken") },
-      })
-      .then(() => {
-        setComments(
-          comments.filter((val) => {
-            return val.id != id;
-          })
-        );
-      });
-  };
 
   const deletePost = (id) => {
     axios
@@ -104,6 +63,50 @@ function Post() {
 
       setPostObject({ ...postObject, postText: newPostText });
     }
+  };
+
+  const addComment = () => {
+    axios
+      .post(
+        "http://localhost:8081/comments",
+        {
+          commentBody: newComment,
+          PostId: id,
+        },
+        {
+          headers: {
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.error) {
+          console.log(response.data.error);
+        } else {
+          setComments([
+            ...comments,
+            {
+              commentBody: newComment,
+              username: response.data.username,
+            },
+          ]);
+          setNewComment("");
+        }
+      });
+  };
+
+  const deleteComment = (id) => {
+    axios
+      .delete(`http://localhost:8081/comments/${id}`, {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then(() => {
+        setComments(
+          comments.filter((val) => {
+            return val.id !== id;
+          })
+        );
+      });
   };
 
   return (
@@ -149,21 +152,14 @@ function Post() {
         <div className="listOfComments">
           {comments.map((comment, key) => {
             return (
-              <div key={key} className="comment">
-                <label>{comment.username}: </label>
-                {comment.commentBody}
-                {authState.username === "admin" && (
-                  <button
-                    onClick={() => {
-                      deleteComment(comment.id);
-                    }}
-                  >
-                    Delete Reply
-                  </button>
-                )}
-              </div>
+              <Comment
+                key={key}
+                comment={comment}
+                onDelete={deleteComment}
+              />
             );
-          })}
+          }
+          )}
         </div>
         <div className="addCommentContainer">
           <input
@@ -173,9 +169,10 @@ function Post() {
             value={newComment}
             onChange={(event) => {
               setNewComment(event.target.value);
-            }}
+            }
+            }
           />
-          <button onClick={addComment}> Add Reply</button>
+          <button onClick={addComment}>Add Reply</button>
         </div>
       </div>
     </div>
