@@ -40,12 +40,13 @@ function CreateChannel() {
                 validationSchema={validationSchema}
             >
                 <Form className="formContainer">
-                    <label>Create A New Channel </label>
+                    <h3 style={{ textAlign: "center" }}> Create Channel</h3>
                     <ErrorMessage name="title" component="span" />
                     <Field
                         autoComplete="off"
                         id="inputCreatePost"
                         name="channelName"
+                        placeholder="Channel Name"
                     />
                     <button type="submit"> Create Channel</button>
                 </Form>

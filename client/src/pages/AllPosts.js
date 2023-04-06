@@ -7,7 +7,8 @@ import { AuthContext } from "../helpers/AuthContext";
 function AllPosts() {
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchUser, setSearchUser] = useState("");
 
   const { authState } = useContext(AuthContext);
   let navigate = useNavigate();
@@ -29,7 +30,7 @@ function AllPosts() {
           );
         });
     }
-  }, []);
+  }, [navigate]);
 
   const likeAPost = (postId) => {
     axios
@@ -68,32 +69,80 @@ function AllPosts() {
   };
 
   const filteredPosts = useMemo(() => {
-    if (!searchTerm) return listOfPosts;
-    return listOfPosts.filter((post) =>
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.postText.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.username.toLowerCase().includes(searchTerm.toLowerCase())
+    let result = listOfPosts;
+
+    if (searchKeyword) {
+      result = result.filter((post) =>
+        post.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+        post.postText.toLowerCase().includes(searchKeyword.toLowerCase())
+      );
+    }
+
+    if (searchUser) {
+      result = result.filter((post) =>
+        post.username.toLowerCase().includes(searchUser.toLowerCase())
+      );
+    }
+
+    return result;
+  }, [searchKeyword, searchUser, listOfPosts]);
+
+  const sortByMostLiked = () => {
+    setListOfPosts(
+      listOfPosts.sort((a, b) => {
+        return b.Likes.length - a.Likes.length;
+      })
     );
-  }, [searchTerm, listOfPosts]);
+    window.location.reload();
+  };
+
+  const sortByDate = () => {
+    setListOfPosts(
+      listOfPosts.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      })
+    );
+    window.location.reload();
+  };
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search posts"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        style={{
-          position: 'absolute',
-          border: "2px solid dodgerblue",
-          right: '30%',
-          top: '15%',
-          padding: '20px',
-          borderRadius: '5px',
-          width: '300px',
-          fontSize: '20px',
-        }}
-      />
+      <div style={{ display: 'flex', alignItems: 'center', marginTop: '50px' }}>
+        <label style={{ fontSize: '25px', marginLeft: '50px' }}>Search:</label>
+        <input
+          type="text"
+          placeholder="Keyword"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+          style={{
+            border: "2px solid dodgerblue",
+            padding: '10px',
+            borderRadius: '5px',
+            width: '300px',
+            fontSize: '20px',
+            marginLeft: '10px',
+            marginRight: '10px',
+          }}
+        />
+        <input
+          type="text"
+          placeholder="User"
+          value={searchUser}
+          onChange={(e) => setSearchUser(e.target.value)}
+          style={{
+            border: "2px solid dodgerblue",
+            padding: '10px',
+            borderRadius: '5px',
+            width: '300px',
+            fontSize: '20px',
+          }}
+        />
+        <label style={{ fontSize: '25px', marginLeft: '100px' }}>Sort By:</label>
+        <button style={{ backgroundColor: 'dodgerblue', color: 'white', padding: '10px', borderRadius: '5px', fontSize: '20px', marginLeft: '50px' }} onClick={sortByMostLiked}>Most Liked</button>
+        <button style={{ backgroundColor: 'dodgerblue', color: 'white', padding: '10px', borderRadius: '5px', fontSize: '20px' }} onClick={sortByDate}>Date Created</button>
+      </div>
+
+
       {filteredPosts.map((value, key) => {
         return (
           <div key={key} className="post">
@@ -126,7 +175,8 @@ function AllPosts() {
             </div>
           </div>
         );
-      })}
+      }
+      )}
     </div>
   );
 }

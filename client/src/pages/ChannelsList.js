@@ -3,7 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
-import UsersList from "./UsersList";
 
 function ChannelsList() {
     const [listOfChannels, setListOfChannels] = useState([]);
@@ -39,7 +38,8 @@ function ChannelsList() {
     };
 
     return (
-        // display all channels, and if the user is admin, display a delete button for each channel and a list of users
+        // display all channels, and if the user is admin,
+        // display a delete button for each channel and a list of users
         <div className="channelsList">
             <h2> All Channels</h2>
             {

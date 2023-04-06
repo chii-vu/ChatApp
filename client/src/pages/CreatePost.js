@@ -39,6 +39,7 @@ function CreatePost({ channelId }) {
       >
         {({ values, handleChange }) => (
           <Form className="formContainer">
+            <h3 style={{ textAlign: "center" }}> Create Post</h3>
             <ErrorMessage name="title" component="span" />
             <Field
               autoComplete="off"
