@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../helpers/AuthContext";
 import ThumbsUp from "../images/ThumbsUp.png";
+
 /**
  * Displays all posts by a user
  * If the user is the current user, they can change their password
