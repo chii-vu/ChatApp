@@ -8,4 +8,4 @@ Nagivate to `localhost:8081` to view the app.
 
 Video Demo
 
-https://user-images.githubusercontent.com/115325256/230678583-0d416b3b-3300-42d0-b9b0-24cfbaa38e39.mp4
+https://user-images.githubusercontent.com/115325256/230685111-7da2091c-e3b7-44fa-a970-087f5a344ed5.mp4
